@@ -237,7 +237,7 @@ WaveFile::tone(int frequency, int msecs) {
 	}
 }
 
-// Create a new wave file that is k times the frequencyrate of the original
+// Create a new wave file that is k times the frequency rate of the original
 WaveFile *
 WaveFile::multiply_freq(double k, int durationms)
 {
@@ -301,14 +301,8 @@ WaveFile::echo(float echoAmount, float delayms)
 		t++;
 	}
 
-	int atenuation = 0.2;
-	int delay = 0.1;
-	datanew[i] = hdr->data[i] + atenuation + delay; //calculate the new sound w/ atenuation & delay 
-
-	//&hdr->data = datanew[i]; //assign the original data to the new data
-
 	w2->updateHeader();
-
+	w2->play();
 	return w2;
 
 }

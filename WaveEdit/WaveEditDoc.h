@@ -50,4 +50,5 @@ protected:
 #endif // SHARED_HANDLERS
 public:
 	afx_msg void OnToolsPlay();
+	afx_msg void OnToolsEcho();
 };
