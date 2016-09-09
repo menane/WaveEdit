@@ -22,6 +22,7 @@
 IMPLEMENT_DYNCREATE(CWaveEditDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CWaveEditDoc, CDocument)
+	ON_COMMAND(ID_TOOLS_PLAY, &CWaveEditDoc::OnToolsPlay)
 END_MESSAGE_MAP()
 
 
@@ -61,7 +62,8 @@ void CWaveEditDoc::Serialize(CArchive& ar)
 	}
 	else
 	{
-		// TODO: add loading code here
+		wave.read(ar.GetFile());
+		wave.play();
 	}
 }
 
@@ -135,3 +137,9 @@ void CWaveEditDoc::Dump(CDumpContext& dc) const
 
 
 // CWaveEditDoc commands
+
+
+void CWaveEditDoc::OnToolsPlay()
+{
+	wave.play();
+}
