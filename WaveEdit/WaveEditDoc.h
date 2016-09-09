@@ -51,4 +51,6 @@ protected:
 public:
 	afx_msg void OnToolsPlay();
 	afx_msg void OnToolsEcho();
+	afx_msg void OnToolsSpeedup();
+	afx_msg void OnToolsSlowdown();
 };

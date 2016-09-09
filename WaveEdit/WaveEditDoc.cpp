@@ -24,6 +24,8 @@ IMPLEMENT_DYNCREATE(CWaveEditDoc, CDocument)
 BEGIN_MESSAGE_MAP(CWaveEditDoc, CDocument)
 	ON_COMMAND(ID_TOOLS_PLAY, &CWaveEditDoc::OnToolsPlay)
 	ON_COMMAND(ID_TOOLS_ECHO, &CWaveEditDoc::OnToolsEcho)
+	ON_COMMAND(ID_TOOLS_SPEEDUP, &CWaveEditDoc::OnToolsSpeedup)
+	ON_COMMAND(ID_TOOLS_SLOWDOWN, &CWaveEditDoc::OnToolsSlowdown)
 END_MESSAGE_MAP()
 
 
@@ -148,6 +150,17 @@ void CWaveEditDoc::OnToolsPlay()
 
 void CWaveEditDoc::OnToolsEcho()
 {
-	// TODO: Add your command handler code here
 	wave.echo(0.5, 30);
+}
+
+
+void CWaveEditDoc::OnToolsSpeedup()
+{
+	wave.speed_up();
+}
+
+
+void CWaveEditDoc::OnToolsSlowdown()
+{
+	wave.slow_down();
 }

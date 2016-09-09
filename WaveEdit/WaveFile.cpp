@@ -265,7 +265,7 @@ WaveFile::multiply_freq(double k, int durationms)
 
 	// Write wav header
 	w2->updateHeader();
-
+	w2->play(); //play once the header is done being updated
 	return w2;
 }
 
@@ -302,7 +302,25 @@ WaveFile::echo(float echoAmount, float delayms)
 	}
 
 	w2->updateHeader();
-	w2->play();
+	w2->play(); //play once the header is done being updated
 	return w2;
 
+}
+
+// Create a new wavefile that is sped up from the original one.
+WaveFile *
+WaveFile::speed_up()
+{
+	// increase the rate of the sample by a factor of 2
+	WaveFile * w = multiply_freq(2, sampleRate);
+	return w;
+}
+
+// Create a new wavefile that is slowed down from the original one.
+WaveFile *
+WaveFile::slow_down()
+{
+	// decrease the rate of the sample by 1/2
+	WaveFile * w = multiply_freq(0.5, sampleRate);
+	return w;
 }

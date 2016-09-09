@@ -88,5 +88,10 @@ public:
 	// echoAmount is a constant 0 to 1 with the amount of echo
 	// delayms is the delay of the echo added to the original.
 	WaveFile * echo(float echoAmount, float delayms);
-	WaveFile * speed_up(float sampleRate);
+
+	// Create a new wavefile that is sped up from the original one.
+	WaveFile * speed_up();
+
+	// Create a new wavefile that is slowed down from the original one.
+	WaveFile * slow_down();
 };
