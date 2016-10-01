@@ -95,4 +95,6 @@ public:
 
 	// Create a new wavefile that is slowed down from the original one.
 	WaveFile * slow_down();
+	WaveFile * get_fragment(int startms, int endms);
+	WaveFile * remove_fragment(int startms, int endms);
 };
