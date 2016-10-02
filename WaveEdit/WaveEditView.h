@@ -11,6 +11,8 @@ class CWaveEditView : public CScrollView
 	bool mousePressed;//boolean to keep track of if the mouse is pressed
 	int startSelection;//denotes the start of a selection
 	int endSelection;//denotes the end of a selection
+	int zinflag; //flag to check if the user selects the 'Zoom In' button
+	int zoutflag; //flag to check if the user selects the 'Zoom Out' button
 
 protected: // create from serialization only
 	CWaveEditView();
@@ -55,6 +57,8 @@ public:
 	afx_msg void OnEditCut();
 	afx_msg void OnEditCopy();
 	afx_msg void OnEditPaste();
+	afx_msg void OnToolsZoomin();
+	afx_msg void OnToolsZoomout();
 };
 
 #ifndef _DEBUG  // debug version in WaveEditView.cpp

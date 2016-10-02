@@ -32,6 +32,8 @@ BEGIN_MESSAGE_MAP(CWaveEditView, CScrollView)
 	ON_COMMAND(ID_EDIT_CUT, &CWaveEditView::OnEditCut)
 	ON_COMMAND(ID_EDIT_COPY, &CWaveEditView::OnEditCopy)
 	ON_COMMAND(ID_EDIT_PASTE, &CWaveEditView::OnEditPaste)
+	ON_COMMAND(ID_TOOLS_ZOOMIN, &CWaveEditView::OnToolsZoomin)
+	ON_COMMAND(ID_TOOLS_ZOOMOUT, &CWaveEditView::OnToolsZoomout)
 END_MESSAGE_MAP()
 
 // CWaveEditView construction/destruction
@@ -41,6 +43,8 @@ CWaveEditView::CWaveEditView()
 	mousePressed = false;
 	startSelection = 0;
 	endSelection = 0;
+	//zinflag = 0;
+	//zoutflag = 0;
 }
 
 CWaveEditView::~CWaveEditView()
@@ -110,13 +114,24 @@ void CWaveEditView::OnDraw(CDC* pDC)
 		// Assuming the whole file will be fit in the window, for every x value in the window
 		// we need to find the equivalent sample in the wave file.
 		float val = wave->get_sample((int)(x*wave->lastSample / rect.Width()));
+		
 
 		// We need to fit the sound also in the y axis. The y axis goes from 0 in the
 		// top of the window to rect.Height at the bottom. The sound goes from -32768 to 32767
 		// we scale it in that way.
 		int y = (int)((val + 32768) * (rect.Height() - 1) / (32767 + 32768));
-		pDC->LineTo(x, rect.Height() - y);
+		
+		if (zinflag == 1) {
+			pDC->LineTo(2*x, rect.Height() - y);
+		}
+		else if (zoutflag == 1) {
+			pDC->LineTo(x/2, rect.Height() - y);
+		}
+		else {
+			pDC->LineTo(x, rect.Height() - y);
+		}
 	}
+
 }
 
 
@@ -297,4 +312,22 @@ void CWaveEditView::OnEditPaste()
 
 	// Update window
 	this->RedrawWindow();
+}
+
+
+void CWaveEditView::OnToolsZoomin()
+{
+	// TODO: Add your command handler code here
+	zinflag = 1;
+	this->RedrawWindow();
+	zinflag = 0;
+}
+
+
+void CWaveEditView::OnToolsZoomout()
+{
+	// TODO: Add your command handler code here
+	zoutflag = 1;
+	this->RedrawWindow();
+	zoutflag = 0;
 }
