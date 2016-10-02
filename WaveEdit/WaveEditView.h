@@ -52,6 +52,7 @@ public:
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnEditCut();
+	afx_msg void OnEditCopy();
 };
 
 #ifndef _DEBUG  // debug version in WaveEditView.cpp

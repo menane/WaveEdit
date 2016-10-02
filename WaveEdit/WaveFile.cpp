@@ -327,11 +327,11 @@ WaveFile::slow_down()
 
 //Gets a fragment from a certain interval
 WaveFile * 
-WaveFile::get_fragment(int startms, int endms) {
+WaveFile::get_fragment(double startms, double endms) {
 	WaveFile * w2 = new WaveFile(numChannels, sampleRate, bitsPerSample);
-	int startRate = (startms / 1000) * this->sampleRate;
-	int endRate = (endms / 1000) * this->sampleRate;
-	int t = startRate;
+	unsigned long startRate = (startms / 1000) * this->sampleRate;
+	unsigned long endRate = (endms / 1000) * this->sampleRate;
+	unsigned long t = startRate;
 	while (t >= startRate && t < endRate){
 		w2->add_sample(this->get_sample(t));
 		t++;
@@ -345,11 +345,11 @@ WaveFile::get_fragment(int startms, int endms) {
 
 //Removes a fragment at a certain interval
 WaveFile *
-WaveFile::remove_fragment(int startms, int endms) {
+WaveFile::remove_fragment(double startms, double endms) {
 	WaveFile * w2 = new WaveFile(numChannels, sampleRate, bitsPerSample);
-	int startRate = (startms / 1000) * this->sampleRate;
-	int endRate = (endms / 1000) * this->sampleRate;
-	int t = 0;
+	unsigned long startRate = (startms / 1000) * this->sampleRate;
+	unsigned long endRate = (endms / 1000) * this->sampleRate;
+	unsigned long t = 0;
 
 	//if (startRate != 0 && endRate != 0) {
 		while (t < this->lastSample) {

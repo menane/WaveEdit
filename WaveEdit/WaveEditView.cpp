@@ -30,6 +30,7 @@ BEGIN_MESSAGE_MAP(CWaveEditView, CScrollView)
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
 	ON_COMMAND(ID_EDIT_CUT, &CWaveEditView::OnEditCut)
+	ON_COMMAND(ID_EDIT_COPY, &CWaveEditView::OnEditCopy)
 END_MESSAGE_MAP()
 
 // CWaveEditView construction/destruction
@@ -193,9 +194,12 @@ void CWaveEditView::OnEditCut()
 	CWaveEditDoc* pDoc = GetDocument();
 
 	ASSERT_VALID(pDoc);
+
 	if (!pDoc)
 		return;
+
 	WaveFile * wave = &pDoc->wave;
+
 	if (wave->hdr == NULL) {
 		return;
 	}
@@ -207,10 +211,10 @@ void CWaveEditView::OnEditCut()
 	// Scale the start and end of the selection.
 	double endms = (1000.0 * wave->lastSample / wave->sampleRate) * this->endSelection / rect.Width();
 
-	// Copy first the fragment
+	// First, save the fragment onto the clipboard
 	clipboard = wave->get_fragment(startms, endms);
 
-	// Copy the clipboard
+	// Remove the fragment from the wave and store it in w2
 	WaveFile * w2 = wave->remove_fragment(startms, endms);
 
 	// Remove old wave
@@ -222,8 +226,34 @@ void CWaveEditView::OnEditCut()
 	//this->selectionStart = 0;
 	//this->endSelection = 0;
 
-	//wave->updateHeader();
-
 	// Update window
 	this->RedrawWindow();
+}
+
+
+void CWaveEditView::OnEditCopy()
+{
+	// TODO: Add your command handler code here
+	CWaveEditDoc* pDoc = GetDocument();
+
+	ASSERT_VALID(pDoc);
+
+	if (!pDoc)
+		return;
+
+	WaveFile * wave = &pDoc->wave;
+
+	if (wave->hdr == NULL) {
+		return;
+	}
+	// Get dimensions of the window.
+	CRect rect;
+	GetClientRect(rect);
+	// Scale the start and end of the selection.
+	double startms = (1000.0 * wave->lastSample / wave->sampleRate) * this->startSelection / rect.Width();
+	// Scale the start and end of the selection.
+	double endms = (1000.0 * wave->lastSample / wave->sampleRate) * this->endSelection / rect.Width();
+
+	// First, save the fragment onto the clipboard
+	clipboard = wave->get_fragment(startms, endms);
 }
