@@ -338,9 +338,7 @@ WaveFile::get_fragment(double startms, double endms) {
 	}
 
 	w2->updateHeader();
-	
 	return w2;
-
 }
 
 //Removes a fragment at a certain interval
@@ -362,6 +360,51 @@ WaveFile::remove_fragment(double startms, double endms) {
 
 	w2->updateHeader();
 
+	return w2;
+
+}
+
+//Adds a fragment to (the end of the file?) wherever point is selected
+WaveFile *
+WaveFile::add_fragment(double point, WaveFile * c) {
+	WaveFile * beginning = new WaveFile(numChannels, sampleRate, bitsPerSample);
+	WaveFile * end = new WaveFile(numChannels, sampleRate, bitsPerSample);
+	WaveFile * w2 = new WaveFile(numChannels, sampleRate, bitsPerSample);
+	unsigned long pointRate = (point / 1000) * this->sampleRate;
+	unsigned long start = 0;
+
+	int i;
+	//Iterate through and get all the samples UP TO the startPoint rate
+	for (i = 0; i < pointRate; i++) {
+		int sample = this->get_sample(i);
+		beginning->add_sample(sample); //adds the sample to the end of the file
+	}
+	beginning->updateHeader();
+
+	int j = pointRate;
+	//Iterate through and get all the samples AFTER (and including) the startPoint rate 
+	for (j; j < this->lastSample;  j++) {
+		int sample = this->get_sample(i);
+		end->add_sample(sample); //adds the sample to the end of the file
+	}
+	end->updateHeader();
+
+	//add the clipboard stuff to the end of the beginning
+	int k = 0;
+	while (k < c->lastSample) {
+		beginning->add_sample(c->get_sample(k));
+		k++;
+	}
+
+	//then add everything else in 'end' to the file
+	int m = 0;
+	while (m < end->lastSample) {
+		beginning->add_sample(end->get_sample(m));
+		m++;
+	}
+	beginning->updateHeader();
+
+	*w2 = *beginning;
 	return w2;
 
 }

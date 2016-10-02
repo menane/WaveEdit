@@ -31,6 +31,7 @@ BEGIN_MESSAGE_MAP(CWaveEditView, CScrollView)
 	ON_WM_MOUSEMOVE()
 	ON_COMMAND(ID_EDIT_CUT, &CWaveEditView::OnEditCut)
 	ON_COMMAND(ID_EDIT_COPY, &CWaveEditView::OnEditCopy)
+	ON_COMMAND(ID_EDIT_PASTE, &CWaveEditView::OnEditPaste)
 END_MESSAGE_MAP()
 
 // CWaveEditView construction/destruction
@@ -93,11 +94,15 @@ void CWaveEditView::OnDraw(CDC* pDC)
 	CBrush brush2(color);
 	pDC->SelectObject(&brush2);
 
+	if ((startSelection == endSelection)) {
+		pDC->Rectangle(2000, 0, 2000, 500);
+	}
+
 	// Draw selection if any
 	if ((startSelection != 0 && endSelection != 0) && (startSelection != endSelection)) {
 		pDC->Rectangle(startSelection, 0, endSelection, rect.Height());
 	}
-
+	
 	// Draw the wave
 	pDC->MoveTo(0, 0);
 	int x;
@@ -233,7 +238,6 @@ void CWaveEditView::OnEditCut()
 
 void CWaveEditView::OnEditCopy()
 {
-	// TODO: Add your command handler code here
 	CWaveEditDoc* pDoc = GetDocument();
 
 	ASSERT_VALID(pDoc);
@@ -256,4 +260,41 @@ void CWaveEditView::OnEditCopy()
 
 	// First, save the fragment onto the clipboard
 	clipboard = wave->get_fragment(startms, endms);
+}
+
+
+void CWaveEditView::OnEditPaste()
+{
+	CWaveEditDoc* pDoc = GetDocument();
+
+	ASSERT_VALID(pDoc);
+
+	if (!pDoc)
+		return;
+
+	WaveFile * wave = &pDoc->wave;
+
+	if (wave->hdr == NULL) {
+		return;
+	}
+	// Get dimensions of the window.
+	CRect rect;
+	GetClientRect(rect);
+	// Scale the start of the selection.
+	double startms = (1000.0 * wave->lastSample / wave->sampleRate) * this->startSelection / rect.Width();
+
+	// Add the fragment from the clipboard and store it in w2
+	WaveFile * w2 = wave->add_fragment(startms, clipboard);
+
+	// Remove old wave
+	//delete wave;
+
+	// Substitute old wave with new one
+	pDoc->wave = *w2;
+
+	//this->selectionStart = 0;
+	//this->endSelection = 0;
+
+	// Update window
+	this->RedrawWindow();
 }

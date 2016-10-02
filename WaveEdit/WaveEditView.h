@@ -8,7 +8,6 @@
 class CWaveEditView : public CScrollView
 {
 	int selectionStart, selectionEnd;
-	WaveFile * clipboard; //global var to store selection from cut, copy and paste
 	bool mousePressed;//boolean to keep track of if the mouse is pressed
 	int startSelection;//denotes the start of a selection
 	int endSelection;//denotes the end of a selection
@@ -16,10 +15,12 @@ class CWaveEditView : public CScrollView
 protected: // create from serialization only
 	CWaveEditView();
 	DECLARE_DYNCREATE(CWaveEditView)
+	WaveFile * clipboard; //global var to store selection from cut, copy and paste
 
 // Attributes
 public:
 	CWaveEditDoc* GetDocument() const;
+	
 
 // Operations
 public:
@@ -53,6 +54,7 @@ public:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnEditCut();
 	afx_msg void OnEditCopy();
+	afx_msg void OnEditPaste();
 };
 
 #ifndef _DEBUG  // debug version in WaveEditView.cpp

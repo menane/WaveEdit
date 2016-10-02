@@ -26,6 +26,7 @@ BEGIN_MESSAGE_MAP(CWaveEditDoc, CDocument)
 	ON_COMMAND(ID_TOOLS_ECHO, &CWaveEditDoc::OnToolsEcho)
 	ON_COMMAND(ID_TOOLS_SPEEDUP, &CWaveEditDoc::OnToolsSpeedup)
 	ON_COMMAND(ID_TOOLS_SLOWDOWN, &CWaveEditDoc::OnToolsSlowdown)
+	ON_COMMAND(ID_TOOLS_ZOOMIN, &CWaveEditDoc::OnToolsZoomin)
 END_MESSAGE_MAP()
 
 
@@ -163,4 +164,11 @@ void CWaveEditDoc::OnToolsSpeedup()
 void CWaveEditDoc::OnToolsSlowdown()
 {
 	wave.slow_down();
+}
+
+
+void CWaveEditDoc::OnToolsZoomin()
+{
+	// TODO: Add your command handler code here
+	
 }

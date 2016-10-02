@@ -97,4 +97,5 @@ public:
 	WaveFile * slow_down();
 	WaveFile * get_fragment(double startms, double endms);
 	WaveFile * remove_fragment(double startms, double endms);
+	WaveFile * add_fragment(double point, WaveFile * c);
 };
